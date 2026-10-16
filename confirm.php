@@ -1,26 +1,23 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
- <meta charset="UTF-8">
- <title>TEST4-confirm</title>
-</head>
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-<body>
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo '<p>データが送信されていません。</p>';
+    exit;
+}
 
-    <h1>入力内容確認</h1>
-<?php    
-    if($_SERVER["REQUEST_METHOD"]==="POST"){
-        $name = $_POST['name'];
-        $age = $_POST['age'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
-        $address = $_POST['address'];
-        $message = $_POST['message'];
-        $gender = $_POST['gender'];
+$name = $_POST['name'] ?? '';
+$age = $_POST['age'] ?? '';
+$phone = $_POST['phone'] ?? '';
+$email = $_POST['email'] ?? '';
+$address = $_POST['address'] ?? '';
+$message = $_POST['message'] ?? '';
+$gender = $_POST['gender'] ?? '';
 
-        $errors = [];
-    }
-//名前
+$errors = [];
+
+/* 名前チェック */
 $min = 1; $max = 50;
 $len = mb_strlen($name, 'UTF-8');
 if ($len < $min || $len > $max) {
@@ -28,24 +25,30 @@ if ($len < $min || $len > $max) {
 } else {
     $pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}\p{Zs}]+$/u';
     if (!preg_match($pattern, $name)) {
-        $errors[] = '名前は「ひらがな・カタカナ・漢字・英字・空白」のみ使用できます。';
+        $errors[] = '名前はひらがな、カタカナ、漢字、英字、半角数字、ハイフンのみ使用できます。';
     }
 }
 
-//年齢
-if ($age !== '' && !preg_match('/^\d{1,3}$/', $age)) {
-    $errors[] = '年齢は数字で 1〜3 桁で入力してください。';
+/* 年齢・電話・メールチェック */
+if (!filter_var($age, FILTER_VALIDATE_INT, [
+    'options' => ['min_range' => 0, 'max_range' => 150]
+]) && $age !== '0') {
+    $errors[] = '年齢は0~150の間で入力してください。';
 }
-//電話
-if ($phone !== '' && !preg_match('/^\d{1,11}$/', $phone)) {
-    $errors[] = '電話番号は数字のみ（ハイフン無し）、最大11桁で入力してください。';
+if ($phone !== '' && !preg_match('/^[\d-]+$/', $phone)) {
+    $errors[] = '電話番号は半角数字とハイフンのみ使用できます。';
 }
-//メール
 if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors[] = '正しいメールアドレスを入力してください。';
+    $errors[] = '正しいメールアドレスの形式が正しくありません。';
 }
 
-//入力欄が空の場合
+$pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}\p{Zs}]+$/u';
+$address = $_POST['address'] ?? '';
+if (!preg_match($pattern, $address)) {
+    $errors[] = '住所はひらがな、カタカナ、漢字、英字、半角数字、ハイフンのみ使用できます。';
+}
+
+/* エラーがあれば表示して戻す */
 if (!empty($errors)) {
     echo '<h1>入力エラー</h1><ul style="color:red">';
     foreach ($errors as $e) {
@@ -56,19 +59,19 @@ if (!empty($errors)) {
     exit;
 }
 
-    else{
-        echo "<p>名前:" . htmlspecialchars($name,ENT_QUOTES,'UTF-8'). "</p>";
-        echo "<p>年齢:{$age}</p>";
-        echo "<p>電話番号:{$phone}";
-        echo "<p>メールアドレス:{$email}";
-        echo "<p>住所:{$address}";
-        echo "<P>質問:" . htmlspecialchars($message,ENT_QUOTES,'UTF-8'). "</P>";
-        echo "<p>性別:{$gender}</p>";
-    }
-
-    else {
-        echo "<p>データが送信されていません。</p>";
-    }
-    ?>
+/* 問題なければ表示 */
+?>
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>確認</title></head>
+<body>
+    <h1>入力内容確認</h1>
+    <p>名前: <?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?></p>
+    <p>年齢: <?= htmlspecialchars($age, ENT_QUOTES, 'UTF-8') ?></p>
+    <p>電話番号: <?= htmlspecialchars($phone, ENT_QUOTES, 'UTF-8') ?></p>
+    <p>メールアドレス: <?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?></p>
+    <p>住所: <?= htmlspecialchars($address, ENT_QUOTES, 'UTF-8') ?></p>
+    <p>質問: <?= nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')) ?></p>
+    <p>性別: <?= htmlspecialchars($gender, ENT_QUOTES, 'UTF-8') ?></p>
 </body>
 </html>

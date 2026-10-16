@@ -15,7 +15,7 @@
     </header>
 
     <main class="main-frame">
-        <form class="card-form" action="#" method="post">
+        <form class="card-form" action="confirm.php" method="POST">
     
                 <label for="name">お名前:</label><br>
                 <input type="text" id="name" name="name"><br><br>
