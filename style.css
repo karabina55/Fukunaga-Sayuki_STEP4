@@ -1,0 +1,82 @@
+body {
+    font-family: "Yu Gothic";
+    background-color: #ccc;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+main, header {
+    padding: 8px 20px;
+}
+
+header {
+    color: #333;
+    text-align: center;
+}
+
+.main-frame {
+  max-width: 70%;                /* 枠の最大幅 */
+  margin: 32px auto;
+  margin-top: 5%;
+  margin-bottom: 30%;               
+  padding: 28px;                   
+  background: #ffffff;             
+  border: 1px solid #e0e6ef;       
+  border-radius: 12px;             
+  box-shadow: 0 8px 30px rgba(20,30,40,0.06);
+}
+
+.card-form {
+  background: transparent;    /* main の背景を見せる */
+  padding: 0;                 /* main が余白を担当するなら form の余白は減らす */
+  max-width: 100%;
+  margin: 32px auto;
+  margin-right: 5%;
+  margin-top: 5%;
+  box-shadow: none;
+  text-align: center;
+}
+
+.card-form label {
+  display: block;
+  margin-top: 3px;
+  margin-bottom: 1%;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: left;
+}
+
+.card-form input[type="text"],
+.card-form input[type="email"],
+.card-form input[type="tel"],
+.card-form textarea,
+.card-form select {
+    width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  color: #333;
+  height: 44px;
+}
+
+.card-form .actions { text-align: left; margin-top: 16px; }
+.card-form button {
+    background-color: #3ca3c0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 25%;
+    transition: background-color 0.3s ease;
+}
+
+.card-form button:hover {
+    background-color: #3ca3c0;
+}
+
