@@ -14,20 +14,10 @@ $errors = [];
 $isPost = ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST';
 
 /* 名前チェック */
-if ($isPost) {
-    $min = 1;
-    $max = 50;
-    $len = mb_strlen($name, 'UTF-8');
-
-    if ($len < $min || $len > $max) {
-        $errors[] = "名前は{$min}〜{$max}文字で入力してください。";
-    } else {
-        $pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}]+$/u';
-        if (!preg_match($pattern, $name)) {
+ $pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}]+$/u';
+ if (!preg_match($pattern, $name)) {
             $errors[] = '名前はひらがな、カタカナ、漢字、英字、のみ使用できます。';
         }
-    }
-
 //年齢
 if ($age !== '') {
 if (!filter_var($age, FILTER_VALIDATE_INT, [
@@ -37,7 +27,7 @@ if (!filter_var($age, FILTER_VALIDATE_INT, [
 }}
 
 //電話
-if ($phone !== '' && !preg_match('/^[\d-]+$/', $phone)) {
+if ($phone !== '' && !preg_match('/^[0-9\-]+$/', $phone)) {
     $errors[] = '電話番号は半角数字とハイフンのみ使用できます。';
 }
 
@@ -47,11 +37,10 @@ if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 //住所
-$pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}\p{Zs}\p{Nd}]+$/u';
+$pattern = '/^[\p{Hiragana}\p{Katakana}\p{Han}\p{Latin}\0-9\-]+$/u';
 $address = $_POST['address'] ?? '';
 if (!preg_match($pattern, $address)) {
     $errors[] = '住所はひらがな、カタカナ、漢字、英字、半角数字、ハイフンのみ使用できます。';
-}
 }
 ?>
 
