@@ -39,7 +39,7 @@
                 <div class="select-wrapper">
                 <select id="gender" name="gender"class="custom-select" aria-label="性別">
                     <option value="male">男性</option>
-                    <option value="femal">女性</option>
+                    <option value="female">女性</option>
                 </select>
                 </div><br><br>
 
