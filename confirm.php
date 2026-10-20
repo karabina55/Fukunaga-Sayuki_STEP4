@@ -24,12 +24,12 @@ $isPost = ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST';
             $errors[] = '名前はひらがな、カタカナ、漢字、英字のみ使用できます。';
         }
 //年齢
-if ($age === '' || !filter_var($age, FILTER_VALIDATE_INT, [
+if ($age === '' || filter_var($age, FILTER_VALIDATE_INT, [
     'options' => [
         'min_range' => 0,
         'max_range' => 150,
     ],
-])) {
+]) === false) {
     $errors[] = '年齢は0から150の間で入力してください。';
 }
 
@@ -82,8 +82,6 @@ elseif (!empty($errors)) :
 <?php endforeach; ?>
             </ul>
             <p><a href="javascript:history.back()">フォームに戻る</a></p>
-        </div>
-
 
 <?php
 else :
